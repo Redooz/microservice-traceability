@@ -34,4 +34,6 @@ public class TraceabilityDocument {
     private String clientId;
 
     private String employeeEmail;
+
+    private String restaurantNit;
 }

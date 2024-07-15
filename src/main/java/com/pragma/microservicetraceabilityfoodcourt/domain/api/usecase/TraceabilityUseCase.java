@@ -9,6 +9,7 @@ import com.pragma.microservicetraceabilityfoodcourt.domain.model.User;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.Role;
 import com.pragma.microservicetraceabilityfoodcourt.domain.spi.ITraceabilityPersistencePort;
 
+import java.time.Duration;
 import java.util.List;
 
 public class TraceabilityUseCase implements ITraceabilityServicePort {
@@ -43,12 +44,27 @@ public class TraceabilityUseCase implements ITraceabilityServicePort {
     }
 
     @Override
-    public List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId) {
-        List<Traceability> traceabilities = traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+    public List<Traceability> getTraceabilitiesSortByBestEmployees(String restaurantNit) {
+        List<Traceability> traceabilities = this.getTraceabilitiesByRestaurantNit(restaurantNit);
+
+        return traceabilities.stream()
+                .filter(traceability -> traceability.getEndTime() != null)
+                .sorted((traceability1, traceability2) -> {
+                    Duration duration1 = Duration.between(traceability1.getStartTime(), traceability1.getEndTime());
+                    Duration duration2 = Duration.between(traceability2.getStartTime(), traceability2.getEndTime());
+
+                    return duration1.compareTo(duration2);
+                }).toList();
+
+    }
+
+    @Override
+    public List<Traceability> getTraceabilitiesByRestaurantNit(String restaurantNit) {
+        List<Traceability> traceabilities = traceabilityPersistencePort.getTraceabilitiesByRestaurantNit(restaurantNit);
 
         if (traceabilities.isEmpty()) {
             throw new NoDataFoundException(
-                    String.format(TraceabilityConstant.TRACEABILITY_NOT_FOUND_BY_ORDER_ID_AND_CLIENT_ID, orderId, clientId)
+                    String.format(TraceabilityConstant.TRACEABILITIES_FROM_RESTAURANT_WITH_NIT_S_NOT_FOUND, restaurantNit)
             );
         }
 

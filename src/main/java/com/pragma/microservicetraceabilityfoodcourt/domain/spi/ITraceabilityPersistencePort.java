@@ -9,5 +9,5 @@ public interface ITraceabilityPersistencePort {
     void saveTraceability(Traceability traceability);
     void updateTraceability(Traceability traceability);
     Optional<Traceability> getTraceabilityByOrderId(Long orderId);
-    List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId);
+    List<Traceability> getTraceabilitiesByRestaurantNit(String restaurantNit);
 }

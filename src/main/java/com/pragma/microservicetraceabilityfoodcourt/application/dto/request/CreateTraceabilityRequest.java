@@ -20,6 +20,9 @@ public record CreateTraceabilityRequest(
         @Email(message = TraceabilityReqConstant.MSG_CLIENT_EMAIL_FORMAT)
         String clientEmail,
 
+        @NotBlank(message = TraceabilityReqConstant.RESTAURANT_NIT_IS_REQUIRED)
+        String restaurantNit,
+
         @PastOrPresent
         LocalDateTime startTime,
 

@@ -3,7 +3,7 @@ package com.pragma.microservicetraceabilityfoodcourt.application.dto.response;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 public record GetTraceabilityResponse(
@@ -13,7 +13,8 @@ public record GetTraceabilityResponse(
         String clientEmail,
         String employeeId,
         String employeeEmail,
-        LocalDate date,
+        LocalDateTime startTime,
+        LocalDateTime endTime,
         OrderStatus lastStatus,
         OrderStatus newStatus
 ) {

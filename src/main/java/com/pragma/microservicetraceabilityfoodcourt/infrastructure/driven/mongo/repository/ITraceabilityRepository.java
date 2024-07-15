@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface ITraceabilityRepository extends MongoRepository<TraceabilityDocument, Long> {
-    List<TraceabilityDocument> findAllByOrderIdAndClientId(Long orderId, String clientId);
+    List<TraceabilityDocument> findAllByRestaurantNit(String restaurantNit);
     TraceabilityDocument findByOrderId(Long orderId);
 }

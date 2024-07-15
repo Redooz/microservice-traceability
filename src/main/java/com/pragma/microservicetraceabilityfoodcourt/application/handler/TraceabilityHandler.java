@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +45,15 @@ public class TraceabilityHandler {
         User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(loggedUser, orderId);
         return traceabilityDtoMapper.toResponse(traceability);
+    }
+
+    public List<GetTraceabilityResponse> getTraceabilitiesByRestaurantNit(String nit) {
+        List<Traceability> traceabilities = traceabilityServicePort.getTraceabilitiesByRestaurantNit(nit);
+        return traceabilityDtoMapper.toResponseList(traceabilities);
+    }
+
+    public List<GetTraceabilityResponse> getTraceabilitiesSortByBestEmployees(String nit) {
+        List<Traceability> traceabilities = traceabilityServicePort.getTraceabilitiesSortByBestEmployees(nit);
+        return traceabilityDtoMapper.toResponseList(traceabilities);
     }
 }

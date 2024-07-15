@@ -9,4 +9,5 @@ public class TraceabilityReqConstant {
     public static final String MSG_CLIENT_ID_IS_REQUIRED = "Client ID is required";
     public static final String MSG_CLIENT_EMAIL_IS_REQUIRED = "Client email is required";
     public static final String MSG_CLIENT_EMAIL_FORMAT = "Client email format is invalid";
+    public static final String RESTAURANT_NIT_IS_REQUIRED = "Restaurant NIT is required";
 }
