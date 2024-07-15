@@ -1,6 +1,6 @@
 package com.pragma.microservicetraceabilityfoodcourt.domain.model;
 
-import com.pragma.microservicetraceabilityfoodcourt.domain.enums.OrderStatus;
+import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 
 import java.time.LocalDate;
 

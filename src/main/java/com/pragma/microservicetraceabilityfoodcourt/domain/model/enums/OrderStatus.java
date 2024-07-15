@@ -1,4 +1,4 @@
-package com.pragma.microservicetraceabilityfoodcourt.domain.enums;
+package com.pragma.microservicetraceabilityfoodcourt.domain.model.enums;
 
 public enum OrderStatus {
     PENDING,
