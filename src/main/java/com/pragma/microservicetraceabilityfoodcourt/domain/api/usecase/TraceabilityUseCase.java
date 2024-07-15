@@ -35,6 +35,14 @@ public class TraceabilityUseCase implements ITraceabilityServicePort {
 
     @Override
     public List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId) {
-        return traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+        List<Traceability> traceabilities = traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+
+        if (traceabilities.isEmpty()) {
+            throw new NoDataFoundException(
+                    String.format(TraceabilityConstant.TRACEABILITY_NOT_FOUND_BY_ORDER_ID_AND_CLIENT_ID, orderId, clientId)
+            );
+        }
+
+        return traceabilities;
     }
 }
