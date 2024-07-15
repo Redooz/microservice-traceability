@@ -1,8 +1,12 @@
 package com.pragma.microservicetraceabilityfoodcourt.domain.api.usecase;
 
 import com.pragma.microservicetraceabilityfoodcourt.domain.builder.TraceabilityBuilder;
+import com.pragma.microservicetraceabilityfoodcourt.domain.builder.UserBuilder;
 import com.pragma.microservicetraceabilityfoodcourt.domain.exception.NoDataFoundException;
+import com.pragma.microservicetraceabilityfoodcourt.domain.exception.PermissionDeniedException;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.Traceability;
+import com.pragma.microservicetraceabilityfoodcourt.domain.model.User;
+import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.Role;
 import com.pragma.microservicetraceabilityfoodcourt.domain.spi.ITraceabilityPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +64,7 @@ class TraceabilityUseCaseTest {
 
         when(traceabilityPersistencePort.getTraceabilityByOrderId(orderId)).thenReturn(Optional.of(traceability));
 
-        traceabilityUseCase.getTraceabilityByOrderId(orderId);
+        traceabilityUseCase.getTraceabilityByOrderId(any(User.class),orderId);
 
         verify(traceabilityPersistencePort, times(1)).getTraceabilityByOrderId(orderId);
     }
@@ -70,7 +74,26 @@ class TraceabilityUseCaseTest {
     void getTraceabilityByOrderIdNotFound() {
         Long orderId = 1L;
 
-        assertThrows(NoDataFoundException.class, () -> traceabilityUseCase.getTraceabilityByOrderId(orderId));
+        assertThrows(NoDataFoundException.class, () -> traceabilityUseCase.getTraceabilityByOrderId(any(User.class),orderId));
+    }
+
+    @Test
+    @DisplayName("Should throw exception when permission denied")
+    void getTraceabilityByOrderIdPermissionDenied() {
+        Long orderId = 1L;
+        Traceability traceability = new TraceabilityBuilder()
+                .setOrderId(orderId)
+                .setClientId("1")
+                .createTraceability();
+
+        User user = new UserBuilder()
+                .setDocumentId("2")
+                .setRole(Role.CUSTOMER)
+                .createUser();
+
+        when(traceabilityPersistencePort.getTraceabilityByOrderId(orderId)).thenReturn(Optional.of(traceability));
+
+        assertThrows(PermissionDeniedException.class, () -> traceabilityUseCase.getTraceabilityByOrderId(user, orderId));
     }
 
     @Test

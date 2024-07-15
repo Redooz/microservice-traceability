@@ -6,7 +6,9 @@ import com.pragma.microservicetraceabilityfoodcourt.application.dto.response.Get
 import com.pragma.microservicetraceabilityfoodcourt.application.mapper.ITraceabilityDtoMapper;
 import com.pragma.microservicetraceabilityfoodcourt.domain.api.ITraceabilityServicePort;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.Traceability;
+import com.pragma.microservicetraceabilityfoodcourt.domain.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,7 +24,8 @@ public class TraceabilityHandler {
     }
 
     public void updateTraceability(Long orderId, UpdateTraceabilityRequest request) {
-        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(orderId);
+        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(loggedUser, orderId);
 
         traceability.setOrderId(orderId);
 
@@ -39,7 +42,8 @@ public class TraceabilityHandler {
     }
 
     public GetTraceabilityResponse getTraceabilityByOrderId(Long orderId) {
-        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(orderId);
+        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(loggedUser, orderId);
         return traceabilityDtoMapper.toResponse(traceability);
     }
 }
