@@ -25,7 +25,7 @@ public class SecurityConfiguration {
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/traceability/").hasAnyAuthority(Role.CUSTOMER.name())
                 .antMatchers(HttpMethod.GET, "/traceability/{orderId}").hasAnyAuthority(Role.EMPLOYEE.name(), Role.CUSTOMER.name())
-                .antMatchers(HttpMethod.GET, "/traceability/").hasAnyAuthority(Role.EMPLOYEE.name(), Role.CUSTOMER.name())
+                .antMatchers(HttpMethod.GET, "/traceability/restaurant/**").hasAnyAuthority(Role.OWNER.name())
                 .antMatchers(HttpMethod.PATCH, "/traceability/{orderId}").hasAnyAuthority(Role.EMPLOYEE.name())
                 .anyRequest().authenticated()
                 .and()

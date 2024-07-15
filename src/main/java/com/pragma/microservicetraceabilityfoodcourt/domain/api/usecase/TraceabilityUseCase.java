@@ -9,6 +9,7 @@ import com.pragma.microservicetraceabilityfoodcourt.domain.model.User;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.Role;
 import com.pragma.microservicetraceabilityfoodcourt.domain.spi.ITraceabilityPersistencePort;
 
+import java.time.Duration;
 import java.util.List;
 
 public class TraceabilityUseCase implements ITraceabilityServicePort {
@@ -40,6 +41,21 @@ public class TraceabilityUseCase implements ITraceabilityServicePort {
         }
 
         return traceability;
+    }
+
+    @Override
+    public List<Traceability> getTraceabilitiesSortByBestEmployees(String restaurantNit) {
+        List<Traceability> traceabilities = this.getTraceabilitiesByRestaurantNit(restaurantNit);
+
+        return traceabilities.stream()
+                .filter(traceability -> traceability.getEndTime() != null)
+                .sorted((traceability1, traceability2) -> {
+                    Duration duration1 = Duration.between(traceability1.getStartTime(), traceability1.getEndTime());
+                    Duration duration2 = Duration.between(traceability2.getStartTime(), traceability2.getEndTime());
+
+                    return duration1.compareTo(duration2);
+                }).toList();
+
     }
 
     @Override

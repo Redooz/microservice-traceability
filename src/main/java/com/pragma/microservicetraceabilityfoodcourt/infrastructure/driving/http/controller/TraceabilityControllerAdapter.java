@@ -67,4 +67,16 @@ public class TraceabilityControllerAdapter {
         return ResponseEntity.ok(traceabilityHandler.getTraceabilitiesByRestaurantNit(nit));
     }
 
+
+    @GetMapping("/restaurant/ranking/{nit}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Traceabilities found"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Traceabilities not found")
+    })
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<List<GetTraceabilityResponse>> getTraceabilitiesSortByBestEmployees(@PathVariable String nit) {
+        return ResponseEntity.ok(traceabilityHandler.getTraceabilitiesSortByBestEmployees(nit));
+    }
+
 }
