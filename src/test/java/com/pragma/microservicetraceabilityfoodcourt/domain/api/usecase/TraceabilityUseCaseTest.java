@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,13 +59,19 @@ class TraceabilityUseCaseTest {
     @DisplayName("Should get traceability by order id")
     void getTraceabilityByOrderId() {
         Long orderId = 1L;
+        User loggedUser = new UserBuilder()
+                .setDocumentId("1")
+                .setRole(Role.CUSTOMER)
+                .createUser();
+
         Traceability traceability = new TraceabilityBuilder()
                 .setOrderId(orderId)
+                .setClientId(loggedUser.getDocumentId())
                 .createTraceability();
 
         when(traceabilityPersistencePort.getTraceabilityByOrderId(orderId)).thenReturn(Optional.of(traceability));
 
-        traceabilityUseCase.getTraceabilityByOrderId(any(User.class),orderId);
+        traceabilityUseCase.getTraceabilityByOrderId(loggedUser,orderId);
 
         verify(traceabilityPersistencePort, times(1)).getTraceabilityByOrderId(orderId);
     }
@@ -97,26 +104,47 @@ class TraceabilityUseCaseTest {
     }
 
     @Test
-    @DisplayName("Should get traceabilities by order id and client id")
+    @DisplayName("Should get traceabilities by restaurant nit")
     void getTraceabilitiesByOrderIdAndClientId() {
-        Long orderId = 1L;
-        String clientId = "1";
+        String restaurantNit = "1";
 
-        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId)).thenReturn(List.of(new TraceabilityBuilder().createTraceability()));
+        when(traceabilityPersistencePort.getTraceabilitiesByRestaurantNit(restaurantNit)).thenReturn(List.of(new TraceabilityBuilder().createTraceability()));
 
-        traceabilityUseCase.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+        traceabilityUseCase.getTraceabilitiesByRestaurantNit(restaurantNit);
 
-        verify(traceabilityPersistencePort, times(1)).getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId);
+        verify(traceabilityPersistencePort, times(1)).getTraceabilitiesByRestaurantNit(restaurantNit);
     }
 
     @Test
     @DisplayName("Should throw exception when traceabilities not found by order id and client id")
     void getTraceabilitiesByOrderIdAndClientIdNotFound() {
-        Long orderId = 1L;
-        String clientId = "1";
+        String restaurantNit = "1";
 
-        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId)).thenReturn(List.of());
+        when(traceabilityPersistencePort.getTraceabilitiesByRestaurantNit(restaurantNit)).thenReturn(List.of());
 
-        assertThrows(NoDataFoundException.class, () -> traceabilityUseCase.getTraceabilitiesByOrderIdAndClientId(orderId, clientId));
+        assertThrows(NoDataFoundException.class, () -> traceabilityUseCase.getTraceabilitiesByRestaurantNit(restaurantNit));
+    }
+
+    @Test
+    @DisplayName("Should get traceabilities sort by best employees")
+    void getTraceabilitiesSortByBestEmployees() {
+        String restaurantNit = "1";
+        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime endTime = LocalDateTime.now().plusHours(1);
+
+        when(traceabilityPersistencePort.getTraceabilitiesByRestaurantNit(restaurantNit)).thenReturn(List.of(
+                new TraceabilityBuilder()
+                        .setStartTime(startTime)
+                        .setEndTime(endTime)
+                        .createTraceability(),
+                new TraceabilityBuilder()
+                        .setStartTime(startTime)
+                        .setEndTime(endTime)
+                        .createTraceability()
+        ));
+
+        traceabilityUseCase.getTraceabilitiesSortByBestEmployees(restaurantNit);
+
+        verify(traceabilityPersistencePort, times(1)).getTraceabilitiesByRestaurantNit(restaurantNit);
     }
 }
