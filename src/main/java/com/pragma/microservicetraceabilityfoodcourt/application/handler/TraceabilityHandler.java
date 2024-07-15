@@ -1,8 +1,11 @@
 package com.pragma.microservicetraceabilityfoodcourt.application.handler;
 
 import com.pragma.microservicetraceabilityfoodcourt.application.dto.request.CreateTraceabilityRequest;
+import com.pragma.microservicetraceabilityfoodcourt.application.dto.request.UpdateTraceabilityRequest;
+import com.pragma.microservicetraceabilityfoodcourt.application.dto.response.GetTraceabilityResponse;
 import com.pragma.microservicetraceabilityfoodcourt.application.mapper.ITraceabilityDtoMapper;
 import com.pragma.microservicetraceabilityfoodcourt.domain.api.ITraceabilityServicePort;
+import com.pragma.microservicetraceabilityfoodcourt.domain.model.Traceability;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +19,15 @@ public class TraceabilityHandler {
         traceabilityServicePort.saveTraceability(traceabilityDtoMapper.toModelFromCreate(request));
     }
 
-    public void updateTraceability(CreateTraceabilityRequest request) {
-        traceabilityServicePort.updateTraceability(traceabilityDtoMapper.toModelFromCreate(request));
+    public void updateTraceability(Long orderId, UpdateTraceabilityRequest request) {
+        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(orderId);
+
+        traceability.setOrderId(orderId);
+
+        traceabilityServicePort.updateTraceability(traceability);
     }
 
-    public void getTraceabilityByOrderId(Long orderId) {
-        traceabilityServicePort.getTraceabilityByOrderId(orderId);
+    public GetTraceabilityResponse getTraceabilityByOrderId(Long orderId) {
+        return traceabilityDtoMapper.toResponse(traceabilityServicePort.getTraceabilityByOrderId(orderId));
     }
 }
