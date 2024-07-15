@@ -2,6 +2,8 @@ package com.pragma.microservicetraceabilityfoodcourt.application.dto.request;
 
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 
+import java.time.LocalDateTime;
+
 public record UpdateTraceabilityRequest(
         String employeeId,
 
@@ -9,6 +11,8 @@ public record UpdateTraceabilityRequest(
 
         OrderStatus lastStatus,
 
-        OrderStatus newStatus
+        OrderStatus newStatus,
+        
+        LocalDateTime endTime
 ) {
 }

@@ -18,7 +18,7 @@ public interface ITraceabilityDtoMapper {
     Traceability toModelFromCreate(CreateTraceabilityRequest createTraceabilityRequest);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "date", ignore = true)
+    @Mapping(target = "startTime", ignore = true)
     @Mapping(target = "orderId", ignore = true)
     @Mapping(target = "clientEmail", ignore = true)
     @Mapping(target = "clientId", ignore = true)

@@ -3,10 +3,11 @@ package com.pragma.microservicetraceabilityfoodcourt.domain.builder;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.Traceability;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TraceabilityBuilder {
-    private LocalDate date;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String employeeId;
     private String id;
     private Long orderId;
@@ -16,8 +17,13 @@ public class TraceabilityBuilder {
     private String clientId;
     private String employeeEmail;
 
-    public TraceabilityBuilder setDate(LocalDate date) {
-        this.date = date;
+    public TraceabilityBuilder setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public TraceabilityBuilder setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
         return this;
     }
 
@@ -62,6 +68,6 @@ public class TraceabilityBuilder {
     }
 
     public Traceability createTraceability() {
-        return new Traceability(date, employeeId, id, orderId, lastStatus, newStatus, clientEmail, clientId, employeeEmail);
+        return new Traceability(startTime, endTime, employeeId, id, orderId, lastStatus, newStatus, clientEmail, clientId, employeeEmail);
     }
 }

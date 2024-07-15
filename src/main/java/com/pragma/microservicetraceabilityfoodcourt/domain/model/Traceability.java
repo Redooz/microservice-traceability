@@ -2,10 +2,11 @@ package com.pragma.microservicetraceabilityfoodcourt.domain.model;
 
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Traceability {
-    private LocalDate date;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String employeeId;
     private String id;
     private Long orderId;
@@ -15,8 +16,9 @@ public class Traceability {
     private String clientId;
     private String employeeEmail;
 
-    public Traceability(LocalDate date, String employeeId, String id, Long orderId, OrderStatus lastStatus, OrderStatus newStatus, String clientEmail, String clientId, String employeeEmail) {
-        this.date = date;
+    public Traceability(LocalDateTime startTime, LocalDateTime endTime, String employeeId, String id, Long orderId, OrderStatus lastStatus, OrderStatus newStatus, String clientEmail, String clientId, String employeeEmail) {
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.employeeId = employeeId;
         this.id = id;
         this.orderId = orderId;
@@ -27,12 +29,24 @@ public class Traceability {
         this.employeeEmail = employeeEmail;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void getStartDate(LocalDateTime startDate) {
+        this.startTime = startDate;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public String getEmployeeId() {

@@ -9,6 +9,8 @@ import com.pragma.microservicetraceabilityfoodcourt.domain.model.Traceability;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class TraceabilityHandler {
@@ -24,10 +26,20 @@ public class TraceabilityHandler {
 
         traceability.setOrderId(orderId);
 
+        traceability.setEmployeeId(request.employeeId());
+        traceability.setEmployeeEmail(request.employeeEmail());
+        traceability.setLastStatus(request.lastStatus());
+        traceability.setNewStatus(request.newStatus());
+
+        if (request.endTime() != null) {
+            traceability.setEndTime(request.endTime());
+        }
+
         traceabilityServicePort.updateTraceability(traceability);
     }
 
     public GetTraceabilityResponse getTraceabilityByOrderId(Long orderId) {
-        return traceabilityDtoMapper.toResponse(traceabilityServicePort.getTraceabilityByOrderId(orderId));
+        Traceability traceability = traceabilityServicePort.getTraceabilityByOrderId(orderId);
+        return traceabilityDtoMapper.toResponse(traceability);
     }
 }

@@ -33,7 +33,7 @@ public class TraceabilityControllerAdapter {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping("/{orderId}")
+    @PutMapping("/{orderId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Traceability updated"),
             @ApiResponse(responseCode = "400", description = "Bad request")

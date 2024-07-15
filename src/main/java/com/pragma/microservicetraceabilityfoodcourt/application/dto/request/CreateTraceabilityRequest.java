@@ -4,7 +4,7 @@ import com.pragma.microservicetraceabilityfoodcourt.application.constant.Traceab
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record CreateTraceabilityRequest(
         @NotNull(message = TraceabilityReqConstant.MSG_ORDER_ID_IS_POSITIVE)
@@ -19,7 +19,7 @@ public record CreateTraceabilityRequest(
         String clientEmail,
 
         @PastOrPresent
-        LocalDate date,
+        LocalDateTime startTime,
 
         OrderStatus newStatus
 ) {
