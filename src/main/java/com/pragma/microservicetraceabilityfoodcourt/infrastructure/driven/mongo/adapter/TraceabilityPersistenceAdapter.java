@@ -33,8 +33,8 @@ public class TraceabilityPersistenceAdapter implements ITraceabilityPersistenceP
     }
 
     @Override
-    public List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId) {
-        List<TraceabilityDocument> traceabilityDocuments = traceabilityRepository.findAllByOrderIdAndClientId(orderId, clientId);
+    public List<Traceability> getTraceabilitiesByRestaurantNit(String restaurantNit) {
+        List<TraceabilityDocument> traceabilityDocuments = traceabilityRepository.findAllByRestaurantNit(restaurantNit);
 
         return traceabilityDocumentMapper.toModelList(traceabilityDocuments);
     }

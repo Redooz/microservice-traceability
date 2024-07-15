@@ -102,11 +102,11 @@ class TraceabilityUseCaseTest {
         Long orderId = 1L;
         String clientId = "1";
 
-        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId)).thenReturn(List.of(new TraceabilityBuilder().createTraceability()));
+        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId)).thenReturn(List.of(new TraceabilityBuilder().createTraceability()));
 
         traceabilityUseCase.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
 
-        verify(traceabilityPersistencePort, times(1)).getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+        verify(traceabilityPersistencePort, times(1)).getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId);
     }
 
     @Test
@@ -115,7 +115,7 @@ class TraceabilityUseCaseTest {
         Long orderId = 1L;
         String clientId = "1";
 
-        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId)).thenReturn(List.of());
+        when(traceabilityPersistencePort.getTraceabilitiesByOrderIdAndRestaurantNit(orderId, clientId)).thenReturn(List.of());
 
         assertThrows(NoDataFoundException.class, () -> traceabilityUseCase.getTraceabilitiesByOrderIdAndClientId(orderId, clientId));
     }

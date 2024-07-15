@@ -43,12 +43,12 @@ public class TraceabilityUseCase implements ITraceabilityServicePort {
     }
 
     @Override
-    public List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId) {
-        List<Traceability> traceabilities = traceabilityPersistencePort.getTraceabilitiesByOrderIdAndClientId(orderId, clientId);
+    public List<Traceability> getTraceabilitiesByRestaurantNit(String restaurantNit) {
+        List<Traceability> traceabilities = traceabilityPersistencePort.getTraceabilitiesByRestaurantNit(restaurantNit);
 
         if (traceabilities.isEmpty()) {
             throw new NoDataFoundException(
-                    String.format(TraceabilityConstant.TRACEABILITY_NOT_FOUND_BY_ORDER_ID_AND_CLIENT_ID, orderId, clientId)
+                    String.format(TraceabilityConstant.TRACEABILITIES_FROM_RESTAURANT_WITH_NIT_S_NOT_FOUND, restaurantNit)
             );
         }
 

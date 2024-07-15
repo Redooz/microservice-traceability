@@ -13,5 +13,5 @@ public interface ITraceabilityServicePort {
 
     Traceability getTraceabilityByOrderId(User loggedUser, Long orderId);
 
-    List<Traceability> getTraceabilitiesByOrderIdAndClientId(Long orderId, String clientId);
+    List<Traceability> getTraceabilitiesByRestaurantNit(String restaurantNit);
 }
