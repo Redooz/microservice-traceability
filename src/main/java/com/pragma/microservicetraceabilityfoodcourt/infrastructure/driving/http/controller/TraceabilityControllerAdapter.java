@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/traceability")
@@ -53,6 +54,17 @@ public class TraceabilityControllerAdapter {
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<GetTraceabilityResponse> getTraceabilityByOrderId(@PathVariable Long orderId) {
         return ResponseEntity.ok(traceabilityHandler.getTraceabilityByOrderId(orderId));
+    }
+
+    @GetMapping("/restaurant/{nit}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Traceabilities found"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Traceabilities not found")
+    })
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<List<GetTraceabilityResponse>> getTraceabilitiesByRestaurantNit(@PathVariable String nit) {
+        return ResponseEntity.ok(traceabilityHandler.getTraceabilitiesByRestaurantNit(nit));
     }
 
 }
