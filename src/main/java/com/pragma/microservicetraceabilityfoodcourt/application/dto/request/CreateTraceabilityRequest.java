@@ -2,10 +2,12 @@ package com.pragma.microservicetraceabilityfoodcourt.application.dto.request;
 
 import com.pragma.microservicetraceabilityfoodcourt.application.constant.TraceabilityReqConstant;
 import com.pragma.microservicetraceabilityfoodcourt.domain.model.enums.OrderStatus;
+import lombok.Builder;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
+@Builder
 public record CreateTraceabilityRequest(
         @NotNull(message = TraceabilityReqConstant.MSG_ORDER_ID_IS_POSITIVE)
         @Positive
